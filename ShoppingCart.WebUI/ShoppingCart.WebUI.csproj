@@ -169,6 +169,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProductManagerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -337,6 +338,10 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\ProductManager\Index.cshtml" />
+    <Content Include="Views\ProductManager\Create.cshtml" />
+    <Content Include="Views\ProductManager\Edit.cshtml" />
+    <Content Include="Views\ProductManager\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -351,6 +356,24 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ShoppingCart.Core\ShoppingCart.Core.csproj">
+      <Project>{75ea582f-7c6f-4d14-a619-53aad3cf7bff}</Project>
+      <Name>ShoppingCart.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShoppingCart.DataAccess.InMemory\ShoppingCart.DataAccess.InMemory.csproj">
+      <Project>{8e0b2025-6a23-41c5-a175-9f7676c98ffd}</Project>
+      <Name>ShoppingCart.DataAccess.InMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShoppingCart.DataAccess.SQL\ShoppingCart.DataAccess.SQL.csproj">
+      <Project>{d6a281fc-896e-47f9-828e-f1552fec02c2}</Project>
+      <Name>ShoppingCart.DataAccess.SQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShoppingCart.Services\ShoppingCart.Services.csproj">
+      <Project>{33af7fc3-82b9-4115-b0d5-1beedfa3aea6}</Project>
+      <Name>ShoppingCart.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
