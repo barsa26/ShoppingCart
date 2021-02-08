@@ -11,24 +11,24 @@ namespace ShoppingCart.WebUI.Controllers
 {
     public class ProductManagerController : Controller
     {
-        ProductRepository context;
-        ProductCategoryRepository productCategories;
+        InMemoryRepository<Product> context;
+        InMemoryRepository<ProductCategory> productCategories;
         public ProductManagerController()
         {
-            context = new ProductRepository();
-            productCategories = new ProductCategoryRepository();
+            context = new InMemoryRepository<Product>();
+            productCategories = new InMemoryRepository<ProductCategory>();
         }
         // GET: ProductManager
         public ActionResult Index()
         {
-            List<Product> products = context.GetProductList().ToList();
+            List<Product> products = context.Collection().ToList();
             return View(products);
         }
         public ActionResult Create()
         {
             ProductManagerViewModel viewModel = new ProductManagerViewModel();
             viewModel.Product = new Product();
-            viewModel.ProductCategories = productCategories.GetProductCategoryList();
+            viewModel.ProductCategories = productCategories.Collection();
             return View(viewModel);
         }
         [HttpPost]
@@ -40,28 +40,28 @@ namespace ShoppingCart.WebUI.Controllers
             }
             else
             {
-                context.InsertProduct(product);
+                context.Insert(product);
                 context.Commit();
             }
             return RedirectToAction("Index");
         }
         public ActionResult Edit(string Id)
         {
-            Product product = context.GetProductById(Id);
+            Product product = context.GetById(Id);
             if (product == null)
                 return HttpNotFound();
             else
             {
                 ProductManagerViewModel viewModel = new ProductManagerViewModel();
                 viewModel.Product = new Product();
-                viewModel.ProductCategories = productCategories.GetProductCategoryList();
+                viewModel.ProductCategories = productCategories.Collection();
                 return View(viewModel);
             }
         }
         [HttpPost]
         public ActionResult Edit(Product product, string Id)
         {
-            Product productToEdit = context.GetProductById(Id);
+            Product productToEdit = context.GetById(Id);
             if (productToEdit == null)
                 return HttpNotFound();
             else
@@ -83,7 +83,7 @@ namespace ShoppingCart.WebUI.Controllers
         }
         public ActionResult Delete(string Id)
         {
-            Product productToDelete = context.GetProductById(Id);
+            Product productToDelete = context.GetById(Id);
             if (productToDelete == null)
                 return HttpNotFound();
             else
@@ -93,14 +93,14 @@ namespace ShoppingCart.WebUI.Controllers
         [ActionName("Delete")]
         public ActionResult ConfirmDelete(string Id)
         {
-            Product productToDelete = context.GetProductById(Id);
+            Product productToDelete = context.GetById(Id);
             if (productToDelete == null)
             {
                 return HttpNotFound();
             }
             else
             {
-                context.DeleteProduct(Id);
+                context.Delete(Id);
                 context.Commit();
                 return RedirectToAction("Index");
             }

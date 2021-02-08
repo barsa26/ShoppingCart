@@ -10,15 +10,15 @@ namespace ShoppingCart.WebUI.Controllers
 {
     public class ProductCategoryManagerController : Controller
     {
-        ProductCategoryRepository context;
+        InMemoryRepository<ProductCategory> context;
         public ProductCategoryManagerController()
         {
-            context = new ProductCategoryRepository();
+            context = new InMemoryRepository<ProductCategory>();
         }
         // GET: ProductCategoryManager
         public ActionResult Index()
         {
-            List<ProductCategory> productCategories = context.GetProductCategoryList().ToList();
+            List<ProductCategory> productCategories = context.Collection().ToList();
             return View(productCategories);
         }
         public ActionResult Create()
@@ -35,14 +35,14 @@ namespace ShoppingCart.WebUI.Controllers
             }
             else
             {
-                context.InsertProductCategory(productCategory);
+                context.Insert(productCategory);
                 context.Commit();
             }
             return RedirectToAction("Index");
         }
         public ActionResult Edit(string Id)
         {
-            ProductCategory productCategory = context.GetProductCategoryById(Id);
+            ProductCategory productCategory = context.GetById(Id);
             if (productCategory == null)
                 return HttpNotFound();
             else
@@ -51,7 +51,7 @@ namespace ShoppingCart.WebUI.Controllers
         [HttpPost]
         public ActionResult Edit(ProductCategory productCategory, string Id)
         {
-            ProductCategory productCategoryToEdit = context.GetProductCategoryById(Id);
+            ProductCategory productCategoryToEdit = context.GetById(Id);
             if (productCategoryToEdit == null)
                 return HttpNotFound();
             else
@@ -68,7 +68,7 @@ namespace ShoppingCart.WebUI.Controllers
         }
         public ActionResult Delete(string Id)
         {
-            ProductCategory productCategoryToDelete = context.GetProductCategoryById(Id);
+            ProductCategory productCategoryToDelete = context.GetById(Id);
             if (productCategoryToDelete == null)
                 return HttpNotFound();
             else
@@ -78,14 +78,14 @@ namespace ShoppingCart.WebUI.Controllers
         [ActionName("Delete")]
         public ActionResult ConfirmDelete(string Id)
         {
-            ProductCategory productCategoryToDelete = context.GetProductCategoryById(Id);
+            ProductCategory productCategoryToDelete = context.GetById(Id);
             if (productCategoryToDelete == null)
             {
                 return HttpNotFound();
             }
             else
             {
-                context.DeleteProductCategory(Id);
+                context.Delete(Id);
                 context.Commit();
                 return RedirectToAction("Index");
             }
